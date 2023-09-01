@@ -32,8 +32,17 @@ app.get("/qrcode", (req, res) => {
   venom
     .create(
       { session: "session" },
-      (base64Qrimg, asciiQR, attempts, urlCode) => {
-        res.send(base64Qrimg);
+      (base64Qrimg, asciiQR, attempts, urlCode) => {        
+
+        const im = base64Qrimg.split(",")[1];
+        const img = Buffer.from(im, 'base64');
+        res.writeHead(200, {
+          'Content-Type': 'image/png',
+          'Content-Length': img.length
+        });
+        res.end(img);
+
+        // res.send(base64Qrimg);
       },
       (statusSession, session) => {
         console.log("Status Session: ", statusSession);
@@ -68,12 +77,33 @@ app.get("/qrcode", (req, res) => {
     .then((venomClient) => {
       client = venomClient;
       isWhatsAppConnected = true;
+      start(venomClient);
     })
     .catch((error) => {
       console.log(error);
       res.status(500).send("Erro ao estabelecer conexão");
     });
 });
+
+async function start(client) {
+  client.onMessage(async (message) => {
+
+    console.log('From---------------------');
+    console.log('Mensagem de: ' + message.from);
+    console.log('Mensagem: ' + message.body);
+    console.log('------------------------');
+
+    await client
+      .sendText(message.from, "Teste")
+      .then((result) => {
+        console.log('Result: ', result); //return object success
+      })
+      .catch((erro) => {
+        console.error('Error when sending: ', erro); //return object error
+      });
+
+  });
+}
 
 app.get("/disconnect", (req, res) => {
   console.log("first");
@@ -100,3 +130,4 @@ app.get("/status", (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
