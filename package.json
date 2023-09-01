@@ -4,10 +4,12 @@
   "description": "Solução para erro ao abrir o browser",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "Lucas Gabriel",
+  "author": "Lucas Paixão",
   "license": "ISC",
   "type": "module",
   "dependencies": {
