@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "vercel-build": "npx prisma migrate deploy"
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "Lucas Paixão",
