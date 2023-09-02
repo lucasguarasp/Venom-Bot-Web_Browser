@@ -29,68 +29,58 @@ app.get("/qrcode", (req, res) => {
     fs.rmdirSync(tokensPath, { recursive: true });
   }
 
-  // venom
-  //   .create(
-  //     { session: "session" },
-  //     (base64Qrimg, asciiQR, attempts, urlCode) => {        
-
-  //       const im = base64Qrimg.split(",")[1];
-  //       const img = Buffer.from(im, 'base64');
-  //       res.writeHead(200, {
-  //         'Content-Type': 'image/png',
-  //         'Content-Length': img.length
-  //       });
-  //       res.end(img);
-
-  //       // res.send(base64Qrimg);
-  //     },
-  //     (statusSession, session) => {
-  //       console.log("Status Session: ", statusSession);
-  //       console.log("Session name: ", session);
-  //     },
-  //     {
-  //       browserPathExecutable: "",
-  //       folderNameToken: "tokens",
-  //       mkdirFolderToken: false,
-  //       headless: "new",
-  //       devtools: false,
-  //       debug: false,
-  //       logQR: true,
-  //       browserWS: "",
-  //       browserArgs: [""],
-  //       addBrowserArgs: ["--user-agent"],
-  //       puppeteerOptions: {},
-  //       disableSpins: true,
-  //       disableWelcome: true,
-  //       updatesLog: true,
-  //       autoClose: 60000,
-  //       createPathFileToken: false,
-  //       addProxy: [""],
-  //       userProxy: "",
-  //       userPass: "",
-  //     },
-  //     (browser, waPage) => {
-  //       console.log("Browser PID:", browser.process().pid);
-  //       waPage.screenshot({ path: "screenshot.png" });
-  //     }
-  //   )
-  //   .then((venomClient) => {
-  //     client = venomClient;
-  //     isWhatsAppConnected = true;
-  //     start(venomClient);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //     res.status(500).send("Erro ao estabelecer conexão:" + error);
-  //   });
-
   venom
-    .create({
-      session: 'session-name' //name of session
+    .create(
+      { session: "session" },
+      (base64Qrimg, asciiQR, attempts, urlCode) => {        
+
+        const im = base64Qrimg.split(",")[1];
+        const img = Buffer.from(im, 'base64');
+        res.writeHead(200, {
+          'Content-Type': 'image/png',
+          'Content-Length': img.length
+        });
+        res.end(img);
+
+        // res.send(base64Qrimg);
+      },
+      (statusSession, session) => {
+        console.log("Status Session: ", statusSession);
+        console.log("Session name: ", session);
+      },
+      {
+        browserPathExecutable: "",
+        folderNameToken: "tokens",
+        mkdirFolderToken: false,
+        headless: "new",
+        devtools: false,
+        debug: false,
+        logQR: true,
+        browserWS: "",
+        browserArgs: [""],
+        addBrowserArgs: ["--user-agent"],
+        puppeteerOptions: {},
+        disableSpins: true,
+        disableWelcome: true,
+        updatesLog: true,
+        autoClose: 60000,
+        createPathFileToken: false,
+        addProxy: [""],
+        userProxy: "",
+        userPass: "",
+      },
+      (browser, waPage) => {
+        console.log("Browser PID:", browser.process().pid);
+        waPage.screenshot({ path: "screenshot.png" });
+      }
+    )
+    .then((venomClient) => {
+      client = venomClient;
+      isWhatsAppConnected = true;
+      start(venomClient);
     })
-    .then((client) => start(client))
-    .catch((erro) => {
-      console.log(erro);
+    .catch((error) => {
+      console.log(error);
       res.status(500).send("Erro ao estabelecer conexão:" + error);
     });
 
