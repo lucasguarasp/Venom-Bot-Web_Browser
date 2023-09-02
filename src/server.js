@@ -81,7 +81,7 @@ app.get("/qrcode", (req, res) => {
     })
     .catch((error) => {
       console.log(error);
-      res.status(500).send("Erro ao estabelecer conexão");
+      res.status(500).send("Erro ao estabelecer conexão:" + error);
     });
 });
 
